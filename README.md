@@ -1,5 +1,5 @@
-# EN4TB
-Equivariant many-body repulsive potentials for DFTB simulations
+# EquiDTB
+Equivariant many-body Delta potentials for DFTB simulations
 
 ![ML-assisted DFTB approach](images/scheme.png)
 
