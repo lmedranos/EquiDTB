@@ -1,10 +1,12 @@
 [![paper-link](https://img.shields.io/badge/preprint-ChemRxiv-red.svg?style=flat-squar)](https://chemrxiv.org/engage/chemrxiv/article-details/68095e1d927d1c2e667c750a)
-# EquiDTB: Equivariant many-body Delta potentials for DFTB simulations
+# EquiDTB: Equivariant many-body $\Delta$ potentials for DFTB simulations
 
 ## About
 We introduce the EquiDTB framework, which leverages physics-inspired equivariant neural networks to parameterize scalable and transferable many-body $\Delta_{\rm TB}$ potentials, replacing the standard pairwise repulsive potential in the DFTB method. This advancement extends the applicability of our previous ML-corrected DFTB approach [NNrep](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.0c01307) to larger molecules and non-covalent systems.
 
-<img src="images/scheme.png" alt="plot" width="400"/>
+<p align="center">
+  <img src="images/scheme.png" alt="plot" width="60%"/>
+</p>
 
 ## Computing with EquiDTB model
 This is a simple python script file that combines the developed EquiDTB model with the DFTB3 electronic components,
