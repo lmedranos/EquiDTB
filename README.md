@@ -25,7 +25,6 @@ atoms = read("xyz_file.xyz")
 # Load DFTB calculator with MBD
 DFTBcalc = Dftb(label='current_dftb',
                 atoms=atoms,
-                run_manyDftb_steps=True,
                 Hamiltonian_SCC = 'Yes',
                 Hamiltonian_ThirdOrderFull = 'Yes',
                 Hamiltonian_PolynomialRepulsive_ = '',
