@@ -14,7 +14,7 @@ from ase.md.velocitydistribution import MaxwellBoltzmannDistribution
 
 from mace.calculators import MACECalculator
 
-SPcalc = MACECalculator(model_path=sys.argv[1], device='cpu', default_dtype="float32")
+MLcalc = MACECalculator(model_path=sys.argv[1], device='cpu', default_dtype="float32")
 
 xyz_pre = sys.argv[2]
 
@@ -28,7 +28,6 @@ for iFile, fname in enumerate(flist):
 
     DFTBcalc = Dftb(label='current_dftb',
                 atoms=atoms,
-                run_manyDftb_steps=True,
                 Hamiltonian_SCC = 'Yes',
                 Hamiltonian_MaxSCCIterations = '2000',
 #                Hamiltonian_Filling = ' Fermi{ Temperature[K]= 50 }',
@@ -41,13 +40,12 @@ for iFile, fname in enumerate(flist):
                 Hamiltonian_Dispersion_Beta = 0.83, 
                 Hamiltonian_Dispersion_NOmegaGrid = 25,
                 Hamiltonian_Dispersion_ReferenceSet = 'ts',
-                Analysis_ ='',
-                Analysis_CalculateForces = 'Yes')
+                ParserOptions_ParserVersion = '13')
 
 # Mixing calculators
-    QMMMcalc =  ase.calculators.mixing.SumCalculator([DFTBcalc,SPcalc], atoms)
+    QMMLcalc =  ase.calculators.mixing.SumCalculator([DFTBcalc,MLcalc])
 
-    atoms.set_calculator(QMMMcalc)
+    atoms.set_calculator(QMMLcalc)
 
     qn = BFGS(atoms, trajectory='opt-mol.traj')
     qn.run(fmax=0.001,steps=4000)

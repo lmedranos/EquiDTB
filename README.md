@@ -1,5 +1,5 @@
 [![paper-link](https://img.shields.io/badge/preprint-ChemRxiv-red.svg?style=flat-squar)](https://chemrxiv.org/engage/chemrxiv/article-details/68095e1d927d1c2e667c750a)
-# EquiDTB: Equivariant many-body $\Delta$TB potentials for molecular simulations
+# EquiDTB: Equivariant many-body $\Delta_{\rm TB}$ potentials for molecular simulations
 
 ## About
 We introduce the EquiDTB framework, which leverages physics-inspired equivariant neural networks to parameterize scalable and transferable many-body $\Delta_{\rm TB}$ potentials, replacing the standard pairwise repulsive potential in the DFTB method. This advancement extends the applicability of our previous ML-corrected DFTB approach [NNrep](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.0c01307) to compute energetic, structural, vibrational, and dynamics properties of larger molecules and non-covalent systems at DFT-PBE0 accuracy supplemented with a many-body dispersion treatment for van der Waals interactions.
@@ -32,10 +32,11 @@ conda install conda-forge::ase
 ```
 For more information regarding DFTB+ installation, you can visit [DFTB+ Recipes](https://dftbplus-recipes.readthedocs.io/en/latest/introduction.html).
 
-> **Note**: It is necessary to replace the `dftb.py` file from the **calculators** directory in the `ASE` package with the one provided in this repository (see `ase_calc_dftb.py`). This modified ASE-DFTB calculator includes the  reference values for Hubbard Derivatives.
+> **Note1**: It is necessary to replace the `dftb.py` file from the **calculators** directory in the `ASE` package with the one provided in this repository (see `ase_calc_dftb.py`). This modified ASE-DFTB calculator includes the  reference values for Hubbard Derivatives.
 ```bash
 cp ase_calc_dftb.py /path/to/.conda/envs/qued/lib/python3.9/site-packages/ase/calculators/dftb.py
 ```
+> **Note2**: If you encounter any conflicts after installing these packages, you can check the package versions in the `environment.yml` file.
 
 ### Setting up DFTB+ ASE calculator
 The current version of EquiDTB models consider only C, N, O, and H elements. To run calculations using these models and ASE calculator, you should first download the Slater-Koster parameters corresponding to the 3ob set (visit [dft.org](https://dftb.org/parameters/download.html#)). Moreover, you must add the following environment variables to your shell (e.g., in .bashrc, .zshrc, or your job script), replacing the placeholder paths with your own installation paths:

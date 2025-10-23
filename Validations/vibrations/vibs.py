@@ -8,27 +8,26 @@ import numpy as np
 from ase.optimize import QuasiNewton, BFGS
 from ase.vibrations import Vibrations
 from ase.calculators.dftb import Dftb
-from ase.units import Hartree, Bohr, kcal, mol
 import ase.calculators.mixing
 
 from mace.calculators import MACECalculator
 
-SPcalc = MACECalculator(model_path=sys.argv[1], device='cpu', default_dtype="float32")
+MLcalc = MACECalculator(model_path=sys.argv[1], device='cpu', default_dtype="float32")
 
 xyz_pre = sys.argv[2]
-ofile = sys.argv[3]
+odir = sys.argv[3]
 
 folders = sorted(listdir(xyz_pre))
 chdir(ofile)
 
-for fdir in folders:
-  fname = fdir[:-4]
+for xyzfile in folders:
+  fname = xyzfile[:-4]
 
-  if path.exists(ofile+fname) == False:
-    mkdir(ofile+fname)
-  chdir(ofile+fname)
+  if path.exists(odir+fname) == False:
+    mkdir(odir+fname)
+  chdir(odir+fname)
 
-  atoms = read(xyz_pre+fdir, format='xyz')
+  atoms = read(xyz_pre+xyzfile, format='xyz')
 
   ## set up calculator as you wish...
   DFTBcalc = Dftb(label='current_dftb',
@@ -36,7 +35,6 @@ for fdir in folders:
                 Hamiltonian_SCC = 'Yes',
                 Hamiltonian_ThirdOrderFull = 'Yes',
                 Hamiltonian_SCCTolerance = '1E-6',
-#                Hamiltonian_Filling = ' Fermi{ Temperature[K]= 50 }',
                 Hamiltonian_PolynomialRepulsive_ = '',
                 Hamiltonian_PolynomialRepulsive_setForAll = '{Yes}',
                 Hamiltonian_Dispersion_ = 'MBD',
@@ -44,12 +42,11 @@ for fdir in folders:
                 Hamiltonian_Dispersion_Beta = 0.83, 
                 Hamiltonian_Dispersion_NOmegaGrid = 25,
                 Hamiltonian_Dispersion_ReferenceSet = 'ts',
-                Analysis_ ='',
-                Analysis_CalculateForces = 'Yes')
+                ParserOptions_ParserVersion = '13')
 
-  QMMMcalc =  ase.calculators.mixing.SumCalculator([DFTBcalc,SPcalc], atoms)
+  QMMLcalc =  ase.calculators.mixing.SumCalculator([DFTBcalc,MLcalc])
 
-  atoms.set_calculator(QMMMcalc)
+  atoms.set_calculator(QMMLcalc)
 
   try:
     qn = BFGS(atoms, trajectory='mol.traj')
@@ -69,7 +66,7 @@ for fdir in folders:
   vb_cm = vib.get_frequencies()
   ENE = atoms.get_total_energy()
 
-  o1 = open('info-modes-'+str(fname)+'.dat', 'w')
+  o1 = open('modes-'+str(fname)+'.dat', 'w')
   o1.write("{: >24}".format(fname)  +  "{: >24}".format(ENE) + "\n")
 
   for i in range(0, len(vb_ev)):
