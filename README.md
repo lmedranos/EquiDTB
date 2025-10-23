@@ -34,11 +34,11 @@ For more information regarding DFTB+ installation, you can visit [DFTB+ Recipes]
 
 > **Note**: It is necessary to replace the `dftb.py` file from the **calculators** directory in the `ASE` package with the one provided in this repository (see `ase_calc_dftb.py`). This modified ASE-DFTB calculator includes the  reference values for Hubbard Derivatives.
 ```bash
-cp dftb.py /path/to/.conda/envs/qued/lib/python3.9/site-packages/ase/calculators/dftb.py
+cp ase_calc_dftb.py /path/to/.conda/envs/qued/lib/python3.9/site-packages/ase/calculators/dftb.py
 ```
 
 ### Setting up DFTB+ ASE calculator
-The current version of EquiDTB models consider only C, N, O, and H elements. To run calculations using these models and ASE calculator, you should first download the Slater-Koster parameters from the 3ob set corresponding to these elements (visit [dft.org](https://dftb.org/parameters/download.html#)). Moreover, you must add the following environment variables to your shell (e.g., in .bashrc, .zshrc, or your job script), replacing the placeholder paths with your own installation paths:
+The current version of EquiDTB models consider only C, N, O, and H elements. To run calculations using these models and ASE calculator, you should first download the Slater-Koster parameters corresponding to the 3ob set (visit [dft.org](https://dftb.org/parameters/download.html#)). Moreover, you must add the following environment variables to your shell (e.g., in .bashrc, .zshrc, or your job script), replacing the placeholder paths with your own installation paths:
 ```bash
 # Path to your DFTB+ executable (MPI-enabled if available)
 export DFTB_COMMAND='mpiexec -n 1 /path/to/dftb+/bin/dftb+'
@@ -49,7 +49,7 @@ export OMP_NUM_THREADS=1
 ```
 
 ### Single point calculation 
-This is a simple python script file that combines the developed EquiDTB3 model with the DFTB3 electronic components. We have also considered the flags related to many-body dispersion interactions; however, you can remove them if it is not required for your calculations.
+This is a simple python script file that combines the developed `EquiDTB3 model` with the DFTB3 electronic components. We have also considered the flags related to many-body dispersion interactions; however, you can remove them if it is not required for your calculations.
 ```python
 from ase.io import read, write
 from ase.calculators.dftb import Dftb
@@ -57,7 +57,7 @@ import ase.calculators.mixing
 
 # Load MACE calculator
 from mace.calculators import MACECalculator
-SPcalc = MACECalculator(model_path="/path/to/EquiDTBmodel/EquiDTB3.model", device='cpu', default_dtype="float32")
+MLcalc = MACECalculator(model_path="/path/to/model/EquiDTB3.model", device='cpu', default_dtype="float32")
 
 # Read structure file
 atoms = read("xyz_file.xyz")
@@ -77,18 +77,18 @@ DFTBcalc = Dftb(label='current_dftb',
                 ParserOptions_ParserVersion = '13')
 
 # Mixing calculators
-QMMMcalc =  ase.calculators.mixing.SumCalculator([DFTBcalc,SPcalc], atoms)
+QMMLcalc =  ase.calculators.mixing.SumCalculator([DFTBcalc,MLcalc])
 
-atoms.set_calculator(QMMMcalc)
+atoms.set_calculator(QMMLcalc)
 
-energy = atoms.get_potential_energy()
+energy = atoms.get_total_energy()
 forces = atoms.get_forces()
 
 print('Energy and forces in ASE')
 print('Energy = ', energy)
 print('Forces = ', forces)
 ```
-To run calculations using the EquiDTB1 model, you should change the settings only in the ASE-DFTB calculator,
+To run calculations using the `EquiDTB1 model`, you should change the settings only in the ASE-DFTB calculator,
 ```python
 DFTBcalc = Dftb(label='current_dftb',
                 atoms=atoms,
@@ -104,6 +104,15 @@ DFTBcalc = Dftb(label='current_dftb',
 ```
 
 ### Validation benchmarks
+We have considered several challenging calculations to validate the performance of the EquiDTB models. Among them,
+
+- `S66x8 molecular dimers`: Calculation of interaction energy and atomic forces.
+- `Nudged elastic band (NEB) calculations`: Determination of the minimum energy path between conformers of large molecules.
+- `Molecular dynamics simulations`: Conformational sampling at constant temperature of flexible molecules.
+- `Vibrational properties`: Computation of vibrational frequencies of amino acids.
+- `Energetic ranking`: Predicting energetic ranking and atomic forces of [Aquamarine](https://www.nature.com/articles/s41597-024-03521-8) molecules.
+
+Reference data were computed using PBE0+MBD level, as implemented in the [FHI-aims code](https://fhi-aims.org). Python scripts and reference data to perform these validations can be found in the `./Validations/` folder.
 
 ## Citation
 If you use parts of the code please cite
