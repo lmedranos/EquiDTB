@@ -1,3 +1,5 @@
+To compute the interaction energies and atomic forces of S66x8 molecular dimers with the EquiDTB models, use the following command line.
+
 ```bash
 python3 efor_dimer.py /path_to_model/EquiDTB3.model
 ```
