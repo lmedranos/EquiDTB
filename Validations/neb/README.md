@@ -1,13 +1,6 @@
 
-To run an NEB simulation using our approach, follow these steps to execute the Python script.
+To run an NEB simulation using EquiDTB models, use the following command line.
 
 ```shell script
-export OMP_NUM_THREADS=1
-export DFTB_COMMAND='srun -N 1 dftb+'
-export DFTB_PREFIX='./SKfiles/3ob-3-1/'
-
-model=path_to_mace_model/
-xyz=path_to_guess_trajectory/
-
-python3 neb.py $model/MACE_model_swa.model $xyz
+python3 neb.py /path_to_model/EquiDTB3.model /path_to_guess_traj/
 ```

@@ -28,11 +28,11 @@ def get_ordered_molecules(path_to_folder):
 
 from mace.calculators import MACECalculator
 
-SPcalc = MACECalculator(model_path=sys.argv[1], device='cpu', default_dtype="float32")
+MLcalc = MACECalculator(model_path=sys.argv[1], device='cpu', default_dtype="float32")
 
 path_to_folder = sys.argv[2]
 
-#get images and angles (angles are useless but who knows)
+#get images and angles 
 images, angles = get_ordered_molecules(path_to_folder)
 
 #get the position of the first image
@@ -47,12 +47,11 @@ for i in range(0,len(images)):
     pos = pos@rotation
     images[i].set_positions(pos)
 
-#for initial and final we reoptimize with the constraint before the neb optimization (remove calculator at the end)
+#for initial and final we reoptimize with the constraint before the neb optimization
 for i in [0,-1]:
 
     DFTBcalc = Dftb(label='current_dftb',
                 atoms=images[i],
-                run_manyDftb_steps=True,
                 Hamiltonian_SCC = 'Yes',
                 Hamiltonian_MaxSCCIterations = '2000',
 #                Hamiltonian_Filling = ' Fermi{ Temperature[K]= 50 }',
@@ -65,10 +64,9 @@ for i in [0,-1]:
                 Hamiltonian_Dispersion_Beta = 0.83, 
                 Hamiltonian_Dispersion_NOmegaGrid = 25,
                 Hamiltonian_Dispersion_ReferenceSet = 'ts',
-                Analysis_ ='',
-                Analysis_CalculateForces = 'Yes')#,
+                ParserOptions_ParserVersion = '13')
 
-    calc =  ase.calculators.mixing.SumCalculator([DFTBcalc,SPcalc], images[i])
+    calc =  ase.calculators.mixing.SumCalculator([DFTBcalc,MLcalc])
 
     images[i].calc = calc
 
@@ -83,7 +81,6 @@ for i in range(1,len(images)-1):
 
     DFTBcalc = Dftb(label='current_dftb',
                 atoms=images[i],
-                run_manyDftb_steps=True,
                 Hamiltonian_SCC = 'Yes',
                 Hamiltonian_MaxSCCIterations = '2000',
 #                Hamiltonian_Filling = ' Fermi{ Temperature[K]= 50 }',
@@ -96,21 +93,21 @@ for i in range(1,len(images)-1):
                 Hamiltonian_Dispersion_Beta = 0.83, 
                 Hamiltonian_Dispersion_NOmegaGrid = 25,
                 Hamiltonian_Dispersion_ReferenceSet = 'ts',
-                Analysis_ ='',
-                Analysis_CalculateForces = 'Yes')#,
+                ParserOptions_ParserVersion = '13')
 
-    calc =  ase.calculators.mixing.SumCalculator([DFTBcalc,SPcalc], images[i])
+    calc =  ase.calculators.mixing.SumCalculator([DFTBcalc,MLcalc])
 
     images[i].calc = calc
 
 #define the neb object with the list of molecules (list of Atoms objects) 
 neb = NEB(images, remove_rotation_and_translation=True)
 
-#define the optimizer for the NEB, you can choose another one like BFGS if you like
+#define the optimizer for the NEB
 optimizer = NEBOptimizer(neb)
+#optimizer = BFGS(neb)
 
-#run the optimization (the specifics steps and fmax are useless for NEBOptimizer but work for all the others)
-optimizer.run(fmax = 0.005, steps = 4000)
+#run the optimization
+optimizer.run(fmax = 0.01, steps = 4000)
 
 #plot the energy curve, we need to add a calculator also to initial and final geometry
 images[0].set_calculator(calc)

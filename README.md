@@ -10,7 +10,7 @@ We introduce the EquiDTB framework, which leverages physics-inspired equivariant
 
 ## QM datasets
 
-The quantum-mechanical property data used to train the EquiDTB models can be downloaded from the ZENODO repository.
+The quantum-mechanical property data used to train the EquiDTB models can be downloaded from the ZENODO repository associated with this work.
 
 ## Computing with EquiDTB framework
 
