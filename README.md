@@ -24,7 +24,7 @@ pip install mace-torch
 ```
 Install `DFTB+` code and `ASE` python package to combine the MACE and DFTB calculators. 
 ```bash
-conda install -n qued mamba
+conda install -n equidtb mamba
 mamba install 'dftbplus=*=mpi_openmpi_*'
 
 # additional components like the dptools and the Python API
