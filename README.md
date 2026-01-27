@@ -5,7 +5,7 @@
 We introduce the EquiDTB framework, which leverages physics-inspired equivariant neural networks to parameterize scalable and transferable many-body $\Delta_{\rm TB}$ potentials, replacing the standard pairwise repulsive potential in the DFTB method. This advancement extends the applicability of our previous ML-corrected DFTB approach [NNrep](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.0c01307) to compute energetic, structural, vibrational, and dynamics properties of larger molecules and non-covalent systems at DFT-PBE0 accuracy supplemented with a many-body dispersion treatment for van der Waals interactions.
 
 <p align="center">
-  <img src="images/scheme.png" alt="plot" width="60%"/>
+  <img src="images/toc2" alt="plot" width="80%"/>
 </p>
 
 ## QM datasets
