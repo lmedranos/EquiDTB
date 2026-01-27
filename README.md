@@ -118,12 +118,15 @@ Reference data were computed using PBE0+MBD level, as implemented in the [FHI-ai
 ## Citation
 If you use parts of the code please cite
 ```
-@article{Medrano25, 
-author={Medrano Sandonas, Leonardo and Puleva, Mirela and Parra Payano, Ricardo and Stöhr, Martin and Cuniberti, Gianaurelio and Tkatchenko, Alexandre}, 
-title={Advancing Density Functional Tight-Binding method for Large Organic Molecules through Equivariant Neural Networks}, 
-DOI={10.26434/chemrxiv-2025-z3mhh}, 
-journal={ChemRxiv}, 
-year={2025},
+@Article{equidtb,
+author ="Medrano Sandonas, Leonardo and Puleva, Mirela and Erarslan, Zekiye and Parra Payano, Ricardo and Stöhr, Martin and Cuniberti, Gianaurelio and Tkatchenko, Alexandre",
+title  ="Advancing density functional tight-binding method for large organic molecules through equivariant neural networks",
+journal  ="Phys. Chem. Chem. Phys.",
+year  ="2026",
+pages  ="-",
+publisher  ="The Royal Society of Chemistry",
+doi  ="10.1039/D6CP00038J",
+url  ="http://dx.doi.org/10.1039/D6CP00038J",
 }
 
 @article{stoehr20,
@@ -136,3 +139,4 @@ pages = {6835-6843},
 year = {2020},
 doi = {10.1021/acs.jpclett.0c01307},
 }
+```
