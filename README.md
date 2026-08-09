@@ -12,6 +12,11 @@ We introduce the EquiDTB framework, which leverages physics-inspired equivariant
 
 The quantum-mechanical property data used to train the EquiDTB models can be downloaded from the ZENODO repository https://zenodo.org/records/17433999.
 
+## EquiDTB models
+
+- EquiDTB25: trained on equilibrium and non-equilibrium conformations of small molecules from QM7-X dataset.
+- EquiDTB26: trained on equilibrium and non-equilibrium conformations of small molecules from QCML dataset.
+
 ## Computing with EquiDTB framework
 
 ### Installation
