@@ -14,8 +14,8 @@ The quantum-mechanical property data used to train the EquiDTB models can be dow
 
 ## EquiDTB models
 
-- EquiDTB25: trained on equilibrium and non-equilibrium conformations of small molecules from QM7-X dataset.
-- EquiDTB26: trained on equilibrium and non-equilibrium conformations of small molecules from QCML dataset.
+- EquiDTB25: trained on small molecules from QM7-X dataset.
+- EquiDTB26: trained on small molecules from QCML dataset.
 
 ## Computing with EquiDTB framework
 
